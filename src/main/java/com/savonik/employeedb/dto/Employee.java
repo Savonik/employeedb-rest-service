@@ -11,8 +11,6 @@ public class Employee {
     private final Gender gender;
     private final Date birthday;
 
-
-
     public Employee(Long id, String firstName, String lastName, Long departmentId, String jobTitle, Gender gender, Date birthday) {
         this.id = id;
         this.firstName = firstName;
