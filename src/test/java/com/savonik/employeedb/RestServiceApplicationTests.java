@@ -4,7 +4,6 @@ import com.savonik.employeedb.dao.EmployeeDao;
 import com.savonik.employeedb.dto.Employee;
 import com.savonik.employeedb.dto.Gender;
 import com.savonik.employeedb.rest.EmployeeController;
-import com.savonik.employeedb.rest.RestResponse;
 import jdk.management.resource.ResourceRequestDeniedException;
 import org.junit.jupiter.api.Test;
 
@@ -29,9 +28,6 @@ import static org.mockito.BDDMockito.given;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class RestServiceApplicationTests {
-
-    private static final String SUCCESS_STATUS = "success";
-    private static final String ERROR_STATUS = "error";
 
     @Autowired
     private MockMvc mvc;
@@ -71,6 +67,7 @@ public class RestServiceApplicationTests {
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
 
-        assertThat(response.equals(new RestResponse(ERROR_STATUS)));
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getContentAsString()).isNotEmpty();
     }
 }
