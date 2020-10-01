@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequestMapping("/employees")
 @RestController
 public class EmployeeController {
 
@@ -18,40 +19,43 @@ public class EmployeeController {
         this.dao = dao;
     }
 
-    @GetMapping("/employees")
+    @GetMapping
     public List<Employee> getAll() {
         return dao.findAll();
     }
 
-    @PostMapping("/employees")
+    @PostMapping
     @ResponseBody
     public int addNewEmployee(@RequestBody Employee newEmployee) {
         return dao.addEmployee(newEmployee);
     }
 
-    @GetMapping("/employees/{id}")
+    @GetMapping("/{id}")
     public Employee getById(@PathVariable(value = "id") Long id) {
-        if (dao.findById(id) == null){
-            throw new ResourceRequestDeniedException("Employee not exist with id :" + id);
+        Employee employee = dao.findById(id);
+        if (employee == null) {
+            throw new ResourceRequestDeniedException("Employee does not exist with id :" + id);
         }
-        return dao.findById(id);
+        return employee;
     }
 
-    @DeleteMapping("/employees/{id}")
+    @DeleteMapping("/{id}")
     @ResponseBody
     public int deleteEmployee(@PathVariable(value = "id") Long id) {
-        if (dao.deleteEmployee(id) == 0){
+        int deleteResult = dao.deleteEmployee(id);
+        if (deleteResult == 0) {
             throw new ResourceRequestDeniedException("Cannot delete row with id :" + id);
         }
-        return dao.deleteEmployee(id);
+        return deleteResult;
     }
 
-    @PutMapping("/employees/{id}")
+    @PutMapping("/{id}")
     int updateEmployee(@RequestBody Employee employeeDetails, @PathVariable Long id) {
-        if (dao.updateEmployee(employeeDetails, id) == 0){
-            throw new ResourceRequestDeniedException("Cannot delete row with id :" + id);
+        int updateResult = dao.updateEmployee(employeeDetails, id);
+        if (updateResult == 0) {
+            throw new ResourceRequestDeniedException("Cannot update row with id :" + id);
         }
-        return dao.updateEmployee(employeeDetails, id);
+        return updateResult;
     }
 
 }

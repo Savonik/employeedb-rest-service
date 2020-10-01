@@ -75,7 +75,7 @@ public class EmployeeDao {
                 "first_name," +
                 "last_name," +
                 "department_id," +
-                "job_title" +
+                "job_title," +
                 "gender," +
                 "date_of_birth) " +
                 "VALUES(?, ?, ?, ?, ?, ?);";
