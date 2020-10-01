@@ -1,8 +1,10 @@
 package com.savonik.employeedb.rest;
 
-import com.savonik.employeedb.dao.EmployeeDao;
 import com.savonik.employeedb.dto.Employee;
+import com.savonik.employeedb.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,44 +13,48 @@ import java.util.List;
 @RestController
 public class EmployeeController {
 
-    private static final String SUCCESS_STATUS = "success";
-    private static final String ERROR_STATUS = "error";
-
-    private final EmployeeDao dao;
+    private final EmployeeService employeeService;
 
     @Autowired
-    public EmployeeController(EmployeeDao dao) {
-        this.dao = dao;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
     @GetMapping
-    public RestResponse getAll() {
-        List<Employee> employees = dao.findAll();
-        return employees == null ? new RestResponse(ERROR_STATUS) : new RestResponse(SUCCESS_STATUS, employees);
+    public ResponseEntity<List<Employee>> getAll() {
+        List<Employee> employees = employeeService.findAll();
+        return ResponseEntity.ok(employees);
     }
 
     @PostMapping
-    public RestResponse addNewEmployee(@RequestBody Employee newEmployee) {
-        int addResult = dao.addEmployee(newEmployee);
-        return addResult == 0 ? new RestResponse(ERROR_STATUS) : new RestResponse(SUCCESS_STATUS);
+    public ResponseEntity.BodyBuilder addNewEmployee(@RequestBody Employee newEmployee) {
+        int addResult = employeeService.addEmployee(newEmployee);
+        return addResult == 0 ?
+                ResponseEntity.status(HttpStatus.CONFLICT) : ResponseEntity.status(HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/{id}")
-    public RestResponse getById(@PathVariable(value = "id") Long id) {
-        Employee employee = dao.findById(id);
-        return employee == null ? new RestResponse(ERROR_STATUS) : new RestResponse(SUCCESS_STATUS, employee);
+    public ResponseEntity<Employee> getById(@PathVariable(value = "id") Long id) {
+        Employee employee;
+        try {
+            employee = employeeService.findById(id);
+        } catch (NullPointerException e) {
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
+        }
+        return ResponseEntity.ok(employee);
     }
 
     @DeleteMapping("/{id}")
-    RestResponse deleteEmployee(@PathVariable(value = "id") Long id) {
-        int deleteResult = dao.deleteEmployee(id);
-        return deleteResult == 0 ? new RestResponse(ERROR_STATUS) : new RestResponse(SUCCESS_STATUS);
+    public ResponseEntity.BodyBuilder deleteEmployee(@PathVariable(value = "id") Long id) {
+        int deleteResult = employeeService.deleteEmployee(id);
+        return deleteResult == 0 ?
+                ResponseEntity.status(HttpStatus.CONFLICT) : ResponseEntity.status(HttpStatus.UPGRADE_REQUIRED);
     }
 
     @PutMapping("/{id}")
-    RestResponse updateEmployee(@RequestBody Employee employeeDetails, @PathVariable Long id) {
-        int updateResult = dao.updateEmployee(employeeDetails, id);
-        return updateResult == 1 ?
-                new RestResponse(SUCCESS_STATUS) : new RestResponse(ERROR_STATUS);
+    public ResponseEntity.BodyBuilder updateEmployee(@RequestBody Employee employeeDetails, @PathVariable Long id) {
+        int updateResult = employeeService.updateEmployee(employeeDetails, id);
+        return updateResult == 0 ?
+                ResponseEntity.status(HttpStatus.CONFLICT) : ResponseEntity.status(HttpStatus.UPGRADE_REQUIRED);
     }
 }

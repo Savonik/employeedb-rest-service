@@ -28,7 +28,7 @@ public class EmployeeDao {
                 "job_title," +
                 "gender," +
                 "date_of_birth " +
-                "FROM employee";
+                "FROM employee;";
 
         return jdbcTemplate.query(query, (rs, i) -> new Employee(
                 rs.getLong("employee_id"),
@@ -51,11 +51,11 @@ public class EmployeeDao {
                 "gender," +
                 "date_of_birth " +
                 "FROM employee " +
-                "WHERE employee_id = ?";
+                "WHERE employee_id = ?;";
 
         return jdbcTemplate.query(query, new Object[]{id}, rs -> {
             if (!rs.next()) {
-                return null;
+                throw new NullPointerException("Employee with this id wasn't found");
             }
             return new Employee(
                     rs.getLong("employee_id"),
@@ -67,7 +67,6 @@ public class EmployeeDao {
                     new Date(rs.getDate("date_of_birth").getTime())
             );
         });
-
     }
 
     public int addEmployee(Employee newEmployee) {

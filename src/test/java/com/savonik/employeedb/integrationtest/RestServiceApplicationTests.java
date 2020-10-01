@@ -1,4 +1,4 @@
-package com.savonik.employeedb;
+package com.savonik.employeedb.integrationtest;
 
 import com.savonik.employeedb.dao.EmployeeDao;
 import com.savonik.employeedb.dto.Employee;
@@ -27,7 +27,7 @@ import static org.mockito.BDDMockito.given;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class RestServiceApplicationTests {
-
+//service-dao, controller-service
     @Autowired
     private MockMvc mvc;
 

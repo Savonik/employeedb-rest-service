@@ -11,6 +11,8 @@ public class Employee {
     private final Gender gender;
     private final Date birthday;
 
+
+
     public Employee(Long id, String firstName, String lastName, Long departmentId, String jobTitle, Gender gender, Date birthday) {
         this.id = id;
         this.firstName = firstName;
@@ -20,6 +22,7 @@ public class Employee {
         this.gender = gender;
         this.birthday = birthday;
     }
+
 
     public String getFirstName() {
         return firstName;
@@ -45,4 +48,7 @@ public class Employee {
         return birthday;
     }
 
+    public Long getId() {
+        return id;
+    }
 }
