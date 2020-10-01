@@ -30,8 +30,7 @@ public class EmployeeController {
     @PostMapping
     public ResponseEntity<Object> addNewEmployee(@RequestBody Employee newEmployee) {
         int addResult = employeeService.addEmployee(newEmployee);
-        return addResult == 0 ?
-                notFound().build() : ok().build();
+        return addResult == 0 ? notFound().build() : ok().build();
     }
 
     @GetMapping("/{id}")
@@ -48,14 +47,12 @@ public class EmployeeController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteEmployee(@PathVariable(value = "id") Long id) {
         int deleteResult = employeeService.deleteEmployee(id);
-        return deleteResult == 0 ?
-                notFound().build() : ok().build();
+        return deleteResult == 0 ? notFound().build() : ok().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateEmployee(@RequestBody Employee employeeDetails, @PathVariable Long id) {
         int updateResult = employeeService.updateEmployee(employeeDetails, id);
-        return updateResult == 0 ?
-                notFound().build() : ok().build();
+        return updateResult == 0 ? notFound().build() : ok().build();
     }
 }
