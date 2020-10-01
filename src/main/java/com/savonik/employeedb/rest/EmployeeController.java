@@ -27,10 +27,10 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity.BodyBuilder addNewEmployee(@RequestBody Employee newEmployee) {
+    public ResponseEntity<Object> addNewEmployee(@RequestBody Employee newEmployee) {
         int addResult = employeeService.addEmployee(newEmployee);
         return addResult == 0 ?
-                ResponseEntity.status(HttpStatus.CONFLICT) : ResponseEntity.status(HttpStatus.ACCEPTED);
+                ResponseEntity.notFound().build() : ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
@@ -39,22 +39,22 @@ public class EmployeeController {
         try {
             employee = employeeService.findById(id);
         } catch (NullPointerException e) {
-            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(employee);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity.BodyBuilder deleteEmployee(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Object> deleteEmployee(@PathVariable(value = "id") Long id) {
         int deleteResult = employeeService.deleteEmployee(id);
         return deleteResult == 0 ?
-                ResponseEntity.status(HttpStatus.CONFLICT) : ResponseEntity.status(HttpStatus.UPGRADE_REQUIRED);
+                ResponseEntity.notFound().build() : ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity.BodyBuilder updateEmployee(@RequestBody Employee employeeDetails, @PathVariable Long id) {
+    public ResponseEntity<Object> updateEmployee(@RequestBody Employee employeeDetails, @PathVariable Long id) {
         int updateResult = employeeService.updateEmployee(employeeDetails, id);
         return updateResult == 0 ?
-                ResponseEntity.status(HttpStatus.CONFLICT) : ResponseEntity.status(HttpStatus.UPGRADE_REQUIRED);
+                ResponseEntity.notFound().build() : ResponseEntity.ok().build();
     }
 }
