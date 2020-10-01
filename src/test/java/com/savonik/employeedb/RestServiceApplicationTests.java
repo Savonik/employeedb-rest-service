@@ -58,7 +58,7 @@ public class RestServiceApplicationTests {
     }
 
     @Test
-    public void canRetrieveByIdWhenDoesNotExist() throws Exception {
+    public void canGetByIdWhenDoesNotExist() throws Exception {
         given(employeeDao.findById(0L))
                 .willReturn(null);
 
