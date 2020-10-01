@@ -4,7 +4,6 @@ import com.savonik.employeedb.dao.EmployeeDao;
 import com.savonik.employeedb.dto.Employee;
 import com.savonik.employeedb.dto.Gender;
 import com.savonik.employeedb.rest.EmployeeController;
-import jdk.management.resource.ResourceRequestDeniedException;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +54,7 @@ public class RestServiceApplicationTests {
                 .andReturn().getResponse();
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getContentAsString()).isNotEmpty();
     }
 
     @Test
