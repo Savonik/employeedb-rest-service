@@ -13,5 +13,4 @@ public class FrontController {
     public String getAll() {
         return "employee.html";
     }
-
 }
