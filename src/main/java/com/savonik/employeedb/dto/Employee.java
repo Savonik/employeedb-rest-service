@@ -21,7 +21,6 @@ public class Employee {
         this.birthday = birthday;
     }
 
-
     public String getFirstName() {
         return firstName;
     }
