@@ -1,7 +1,5 @@
 package com.savonik.employeedb.dto;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
-
 import java.util.Date;
 
 public class Employee {
