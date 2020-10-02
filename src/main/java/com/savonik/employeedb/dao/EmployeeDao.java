@@ -1,12 +1,11 @@
 package com.savonik.employeedb.dao;
 
 import com.savonik.employeedb.dto.Employee;
-import com.savonik.employeedb.dto.Gender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import static org.springframework.jdbc.core.BeanPropertyRowMapper.newInstance;
 
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -20,53 +19,13 @@ public class EmployeeDao {
     }
 
     public List<Employee> findAll() {
-        final String query = "SELECT " +
-                "employee_id," +
-                "first_name," +
-                "last_name," +
-                "department_id," +
-                "job_title," +
-                "gender," +
-                "date_of_birth " +
-                "FROM employee;";
-
-        return jdbcTemplate.query(query, (rs, i) -> new Employee(
-                rs.getLong("employee_id"),
-                rs.getString("first_name"),
-                rs.getString("last_name"),
-                rs.getLong("department_id"),
-                rs.getString("job_title"),
-                Gender.valueOf(rs.getString("gender").trim()),
-                new Date(rs.getDate("date_of_birth").getTime())
-        ));
+        final String query = "SELECT * FROM employee";
+        return jdbcTemplate.query(query, newInstance(Employee.class));
     }
 
-    public Employee findById(Long id) {
-        final String query = "SELECT " +
-                "employee_id," +
-                "first_name," +
-                "last_name," +
-                "department_id," +
-                "job_title," +
-                "gender," +
-                "date_of_birth " +
-                "FROM employee " +
-                "WHERE employee_id = ?;";
-
-        return jdbcTemplate.query(query, new Object[]{id}, rs -> {
-            if (!rs.next()) {
-                throw new NullPointerException("Employee with this id wasn't found");
-            }
-            return new Employee(
-                    rs.getLong("employee_id"),
-                    rs.getString("first_name"),
-                    rs.getString("last_name"),
-                    rs.getLong("department_id"),
-                    rs.getString("job_title"),
-                    Gender.valueOf(rs.getString("gender").trim()),
-                    new Date(rs.getDate("date_of_birth").getTime())
-            );
-        });
+    public List<Employee> findById(Long id) {
+        final String query = "SELECT * FROM employee WHERE employee_id = ?";
+        return jdbcTemplate.query(query, newInstance(Employee.class), id);
     }
 
     public int addEmployee(Employee newEmployee) {
@@ -86,7 +45,7 @@ public class EmployeeDao {
                 newEmployee.getDepartmentId(),
                 newEmployee.getJobTitle(),
                 String.valueOf(newEmployee.getGender()),
-                newEmployee.getBirthday());
+                newEmployee.getDateOfBirth());
     }
 
     public int deleteEmployee(Long id) {
@@ -111,7 +70,7 @@ public class EmployeeDao {
                 employeeDetails.getDepartmentId(),
                 employeeDetails.getJobTitle(),
                 employeeDetails.getGender().toString(),
-                employeeDetails.getBirthday(),
+                employeeDetails.getDateOfBirth(),
                 id);
     }
 }

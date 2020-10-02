@@ -42,20 +42,20 @@ public class RestServiceApplicationTests {
         assertThat(employeeController).isNotNull();
     }
 
-    @Test
-    public void canGetByIdWhenExists() throws Exception {
-        given(employeeDao.findById(1L))
-                .willReturn(new Employee(1L, "Ivan", "Ivanov",
-                        1L, "engineer", Gender.MALE,
-                        new SimpleDateFormat("yyyy-MM-dd").parse("2000-10-10")));
-
-        MockHttpServletResponse response = mvc.perform(
-                get("/employees/1").accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString()).isNotEmpty();
-    }
+//    @Test
+//    public void canGetByIdWhenExists() throws Exception {
+//        given(employeeDao.findById(1L))
+//                .willReturn(new Employee(1L, "Ivan", "Ivanov",
+//                        1L, "engineer", Gender.MALE,
+//                        new SimpleDateFormat("yyyy-MM-dd").parse("2000-10-10")));
+//
+//        MockHttpServletResponse response = mvc.perform(
+//                get("/employees/1").accept(MediaType.APPLICATION_JSON))
+//                .andReturn().getResponse();
+//
+//        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+//        assertThat(response.getContentAsString()).isNotEmpty();
+//    }
 
     @Test
     public void canGetByIdWhenDoesNotExist() throws Exception {

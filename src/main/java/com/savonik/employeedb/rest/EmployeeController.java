@@ -27,21 +27,16 @@ public class EmployeeController {
         return ok(employees);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<List<Employee>> getById(@PathVariable(value = "id") Long id) {
+        List<Employee> employee = employeeService.findById(id);
+        return ok(employee);
+    }
+
     @PostMapping
     public ResponseEntity<Object> addNewEmployee(@RequestBody Employee newEmployee) {
         int addResult = employeeService.addEmployee(newEmployee);
-        return addResult == 0 ? notFound().build() : ok().build();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Employee> getById(@PathVariable(value = "id") Long id) {
-        Employee employee;
-        try {
-            employee = employeeService.findById(id);
-        } catch (NullPointerException e) {
-            return notFound().build();
-        }
-        return ok(employee);
+        return addResult == 0 ? badRequest().build() : ok().build();
     }
 
     @DeleteMapping("/{id}")
@@ -53,6 +48,6 @@ public class EmployeeController {
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateEmployee(@RequestBody Employee employeeDetails, @PathVariable Long id) {
         int updateResult = employeeService.updateEmployee(employeeDetails, id);
-        return updateResult == 0 ? notFound().build() : ok().build();
+        return updateResult == 0 ? noContent().build() : ok().build();
     }
 }

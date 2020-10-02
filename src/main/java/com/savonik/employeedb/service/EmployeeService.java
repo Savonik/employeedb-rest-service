@@ -25,7 +25,7 @@ public class EmployeeService {
         return employeeDao.addEmployee(newEmployee);
     }
 
-    public Employee findById(Long id) {
+    public List<Employee> findById(Long id) {
         return employeeDao.findById(id);
     }
 
