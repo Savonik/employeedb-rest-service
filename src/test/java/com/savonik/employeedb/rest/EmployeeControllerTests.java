@@ -1,9 +1,9 @@
-package com.savonik.employeedb.integrationtest;
+package com.savonik.employeedb.rest;
 
 import com.savonik.employeedb.dao.EmployeeDao;
 import com.savonik.employeedb.dto.Employee;
 import com.savonik.employeedb.dto.Gender;
-import com.savonik.employeedb.rest.EmployeeController;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -26,8 +28,7 @@ import static org.mockito.BDDMockito.given;
 @AutoConfigureJsonTesters
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RestServiceApplicationTests {
-//service-dao, controller-service
+public class EmployeeControllerTests {
     @Autowired
     private MockMvc mvc;
 
@@ -37,25 +38,37 @@ public class RestServiceApplicationTests {
     @Autowired
     private EmployeeController employeeController;
 
+    private List<Employee> testEmployees;
+    private Employee testEmployee;
+
+    @Before
+    public void beforeTest() {
+        testEmployees = new ArrayList<>();
+        testEmployees.add(new Employee(1L, "Ivan", "Ivanov",
+                1L, "programmer", Gender.MALE, new Date()));
+        testEmployees.add(new Employee(2L, "Stepan", "Stepanov",
+                2L, "data engineer", Gender.MALE, new Date()));
+
+        testEmployee = new Employee(5L, "Arsen", "Taliev",
+                3L, "data engineer", Gender.MALE, new Date());
+    }
+
     @Test
     public void controllerLoads() {
         assertThat(employeeController).isNotNull();
     }
 
-//    @Test
-//    public void canGetByIdWhenExists() throws Exception {
-//        given(employeeDao.findById(1L))
-//                .willReturn(new Employee(1L, "Ivan", "Ivanov",
-//                        1L, "engineer", Gender.MALE,
-//                        new SimpleDateFormat("yyyy-MM-dd").parse("2000-10-10")));
-//
-//        MockHttpServletResponse response = mvc.perform(
-//                get("/employees/1").accept(MediaType.APPLICATION_JSON))
-//                .andReturn().getResponse();
-//
-//        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-//        assertThat(response.getContentAsString()).isNotEmpty();
-//    }
+    @Test
+    public void canGetByIdWhenExists() throws Exception {
+        given(employeeDao.findById(1L)).willReturn(testEmployees);
+
+        MockHttpServletResponse response = mvc.perform(
+                get("/employees/1").accept(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getContentAsString()).isNotEmpty();
+    }
 
     @Test
     public void canGetByIdWhenDoesNotExist() throws Exception {
