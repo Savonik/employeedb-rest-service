@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/employee")
+@RequestMapping("/employees-list")
 public class FrontController {
 
     @GetMapping
     public String getAll() {
-        return "employee.html";
+        return "index.html";
     }
 }

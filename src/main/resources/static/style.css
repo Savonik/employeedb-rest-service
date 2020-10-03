@@ -1,0 +1,21 @@
+body {
+    font-family: "Century Gothic",  sans-serif;
+    font-size: 11pt;
+    background-color: #f0f0f0;
+    color: #333;
+}
+h2 {
+    color: #a52a2a;
+    font-size: 24pt;
+    font-family: "Century Gothic", Times serif;,
+    font-weight: normal;
+}
+p {
+    text-align: justify;
+    margin-left: 60px;
+    margin-right: 10px;
+    border-left: 1px solid #999;
+    border-bottom: 1px solid #999;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
