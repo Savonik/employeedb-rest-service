@@ -29,10 +29,10 @@ public class EmployeeServiceTest {
 
     @Before
     public void beforeTest() {
-        testEmployees = new ArrayList<>();
-        testEmployees.add(new Employee(1L, "Ivan", "Ivanov",
-                1L, "programmer", Gender.MALE, new Date()));
-        testEmployees.add(new Employee(2L, "Stepan", "Stepanov",
+        testEmployees = Arrays.asList(
+                new Employee(1L, "Ivan", "Ivanov",
+                1L, "programmer", Gender.MALE, new Date()),
+                new Employee(2L, "Stepan", "Stepanov",
                 2L, "data engineer", Gender.MALE, new Date()));
 
         testEmployee = new Employee(5L, "Arsen", "Taliev",
