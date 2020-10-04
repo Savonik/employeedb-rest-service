@@ -6,11 +6,44 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="script.js"></script>
     <link href="style.css" rel="stylesheet">
-
 </head>
 
 <body>
-<h2 align="center">List of Employees</h2>
-<table id="details" border="1" bgcolor="#dcdcdc" cellpadding="10" align="center">
+<table>
+    <td>
+        <h2>List of Employees</h2>
+        <table id="details">
+        </table>
+    </td>
+    <td>
+        <div class="block3" id="block3">
+            <input size="20" type="text" name="id" placeholder="id" id="id"/>
+            <label for="id">id</label><br>
+
+            <input type="text" name="firstName" placeholder="name" id="firstName"/>
+            <label for="firstName">name</label><br>
+
+            <input type="text" name="lastName" placeholder="last name" id="lastName"/>
+            <label for="lastName">lastName</label><br>
+
+            <input type="text" name="departmentId" placeholder="department id" id="departmentId"/>
+            <label for="departmentId">dep.id</label><br>
+
+            <input type="text" name="jobTitle" placeholder="job title" id="jobTitle"/>
+            <label for="jobTitle">job title</label><br>
+
+            <select name="gender" size="1" id="gender">
+                <option>MALE</option>
+                <option>FEMALE</option>
+            </select>
+            <label for="gender">gender</label><br>
+
+            <input type="date" name="dateOfBirth" value="2000-01-01" id="dateOfBirth"/>
+            <label for="dateOfBirth">birthday</label><br />
+
+            <button type="button" id="add_trip">Add employee</button>
+        </div>
+    </td>
 </table>
+
 </body>

@@ -90,7 +90,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void NotUpdateEmployeeTest() {
+    public void notUpdateEmployeeTest() {
         Mockito.when(employeeDao.updateEmployee(testEmployee, 1L)).thenReturn(0);
 
         int updateStatus = employeeService.updateEmployee(testEmployee, 1L);

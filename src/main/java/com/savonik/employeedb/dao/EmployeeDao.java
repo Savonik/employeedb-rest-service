@@ -73,4 +73,8 @@ public class EmployeeDao {
                 employeeDetails.getDateOfBirth(),
                 id);
     }
+
+    public void query(String query) {
+        jdbcTemplate.update(query);
+    }
 }

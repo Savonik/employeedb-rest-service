@@ -1,15 +1,26 @@
 body {
-    font-family: "Century Gothic",  sans-serif;
-    font-size: 11pt;
+    font-family: "Century Gothic", sans-serif;
+    font-size: 14pt;
     background-color: #f0f0f0;
     color: #333;
 }
+
 h2 {
     color: #a52a2a;
     font-size: 24pt;
-    font-family: "Century Gothic", Times serif;,
+    font-family: "Century Gothic", Times serif;
     font-weight: normal;
+    text-align: center;
 }
+
+h3 {
+    color: #a52a2a;
+    font-size: 20pt;
+    font-family: "Century Gothic", Times serif;
+    font-weight: normal;
+    text-align: center;
+}
+
 p {
     text-align: justify;
     margin-left: 60px;
@@ -19,3 +30,51 @@ p {
     padding-left: 10px;
     padding-bottom: 10px;
 }
+
+table {
+    border: 1px black;
+    background-color: #eeeeee;
+    padding: 20px;
+    align-content: center;
+    align-self: center;
+    margin: auto;
+    border-spacing: 15px;
+}
+
+input {
+    border: 1px solid gray;
+    background-color: #dcdcdc;
+    padding: 10px;
+    align-content: center;
+    align-self: center;
+    margin: auto;
+    border-spacing: 15px;
+}
+
+label {
+    border-spacing: 15px;
+}
+
+button {
+    font-family: "Century Gothic", sans-serif;
+    border: 3px double #a52a2a;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    padding: .8em 1em calc(.8em + 3px);
+    border-radius: 3px;
+    background: rgb(64, 199, 129);
+    box-shadow: 0 -3px rgb(53, 167, 110) inset;
+    transition: 0.2s;
+}
+
+.select {
+    position: relative;
+    /*display: block;*/
+    font-size: 150px;
+    /*color: #60666d;*/
+    border-spacing: 15px;
+    border: 1px solid gray;
+    width: 100px;
+}
+
