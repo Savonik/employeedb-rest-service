@@ -8,7 +8,9 @@ $(function () {
         );
     }
 );
-
+function showError() {
+    alert("Sorry! Error on server!");
+}
 function showResult(employees) {
     let output = "<tr>" +
         "<th>Id</th>" +
@@ -34,7 +36,6 @@ function showResult(employees) {
                 "</tr>";
         }
     );
-
     $("#details").html(output);
 }
 
@@ -78,9 +79,7 @@ $("#delete_employee").click(function () {
     });
 });
 
-function showError() {
-    alert("Sorry! Error on server!");
-}
+
 
 
 
