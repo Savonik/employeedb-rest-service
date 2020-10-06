@@ -24,31 +24,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class EmployeeDaoTest {
 
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+
+    private final List<Employee> employeeList = Arrays.asList(
+            new Employee(1L, "Ivan", "Ivanov",
+                    1L, "programmer", Gender.MALE, DATE_FORMAT.parse("2000-10-10")),
+            new Employee(2L, "Stepan", "Stepanov",
+                    2L, "data engineer", Gender.MALE, DATE_FORMAT.parse("1999-12-12")),
+            new Employee(3L, "Vitold", "Ravkov",
+                    2L, "marketer", Gender.MALE, DATE_FORMAT.parse("1999-10-12")));
+    private final Employee employee = new Employee(3L, "Alex", "Alexin",
+            2L, "engineer", Gender.MALE, DATE_FORMAT.parse("1999-10-12"));
+
     @Autowired
     private EmployeeDao employeeDao;
 
-    private List<Employee> employeeList;
-    private Employee employee;
-
-    @Before
-    public void beforeTest() throws ParseException, IOException {
-        prepareTestTable();
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        employeeList = Arrays.asList(
-                new Employee(1L, "Ivan", "Ivanov",
-                        1L, "programmer", Gender.MALE, dateFormat.parse("2000-10-10")),
-                new Employee(2L, "Stepan", "Stepanov",
-                        2L, "data engineer", Gender.MALE, dateFormat.parse("1999-12-12")),
-                new Employee(3L, "Vitold", "Ravkov",
-                        2L, "marketer", Gender.MALE, dateFormat.parse("1999-10-12")));
-
-        employee = new Employee(3L, "Alex", "Alexin",
-                2L, "engineer", Gender.MALE, dateFormat.parse("1999-10-12"));
+    public EmployeeDaoTest() throws ParseException {
     }
 
-    private void prepareTestTable() throws IOException {
+    @Before
+    public void prepareTestTable() throws IOException {
         employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/schema.sql")), StandardCharsets.UTF_8));
         employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/data.sql")), StandardCharsets.UTF_8));
     }

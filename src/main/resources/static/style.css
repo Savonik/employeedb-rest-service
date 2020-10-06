@@ -6,7 +6,7 @@ body {
 }
 
 h2 {
-    color: #a52a2a;
+    color: #000000;
     font-size: 24pt;
     font-family: "Century Gothic", Times serif;
     font-weight: normal;
@@ -14,7 +14,7 @@ h2 {
 }
 
 h3 {
-    color: #a52a2a;
+    color: #a92b2b;
     font-size: 20pt;
     font-family: "Century Gothic", Times serif;
     font-weight: normal;
@@ -44,8 +44,8 @@ table {
 
 input {
     border: 1px solid gray;
-    background-color: #dcdcdc;
-    padding: 10px;
+    background-color: #ffffff;
+    padding: 5px;
     align-content: center;
     align-self: center;
     margin: auto;
@@ -58,14 +58,14 @@ label {
 
 button {
     font-family: "Century Gothic", sans-serif;
-    border: 3px double #a52a2a;
+    border: 3px double #838282;
     font-weight: 700;
     color: white;
     text-decoration: none;
     padding: .8em 1em calc(.8em + 3px);
     border-radius: 3px;
-    background: rgb(64, 199, 129);
-    box-shadow: 0 -3px rgb(53, 167, 110) inset;
+    background: rgb(175, 179, 193);
+    box-shadow: 0 -3px rgb(164, 174, 217) inset;
     transition: 0.2s;
 }
 

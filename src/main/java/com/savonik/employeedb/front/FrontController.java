@@ -12,5 +12,4 @@ public class FrontController {
     public String getAll() {
         return "index.html";
     }
-
 }

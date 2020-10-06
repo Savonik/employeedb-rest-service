@@ -1,3 +1,15 @@
+$("#find_employee").click(function () {
+    $("#eployee_find").empty();
+    $.ajax({
+        url: "/employees/" + $("#employee_id").val(),
+        method: "GET",
+        success: showResult,
+        error: function () {
+            $("#operation_status").append("Find error");
+        }
+    });
+});
+
 $(function () {
         $.ajax({
                 url: "/employees",
@@ -40,7 +52,6 @@ function showResult(employees) {
 }
 
 $("#add_employee").click(function () {
-    debugger;
     $("#eployee_adding").empty();
     let data = JSON.stringify({
         "firstName": $("#first_name").val(),
@@ -66,18 +77,20 @@ $("#add_employee").click(function () {
 });
 
 $("#delete_employee").click(function () {
-    $("#eployee_deleting").empty();
+    $("#operation_status").empty();
     $.ajax({
         url: "/employees/" + $("#employee_id").val(),
         method: "DELETE",
         success: function () {
-            $("#eployee_deleting").append("Employee deleted");
+            $("#operation_status").append("Employee deleted");
         },
         error: function () {
-            $("#eployee_deleting").append("Deleting error");
+            $("#operation_status").append("Deleting error");
         }
     });
 });
+
+
 
 
 

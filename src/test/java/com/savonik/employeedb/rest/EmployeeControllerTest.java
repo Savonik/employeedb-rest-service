@@ -1,10 +1,6 @@
 package com.savonik.employeedb.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.savonik.employeedb.dao.EmployeeDao;
-import com.savonik.employeedb.dto.Employee;
-import com.sun.corba.se.impl.orbutil.ObjectWriter;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,13 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -30,21 +24,19 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc
 public class EmployeeControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
-
-    @Autowired
-    private EmployeeController employeeController;
-
-    @Autowired
-    private EmployeeDao employeeDao;
-
-    private final String employeeJson = "{\"firstName\": \"Anna\",\"lastName\":\"Lopukhova\",\"departmentId\": 3," +
+    private static final String EMPLOYEE_JSON = "{\"firstName\": \"Anna\",\"lastName\":\"Lopukhova\",\"departmentId\": 3," +
             "\"jobTitle\":\"accountant\", \"gender\": \"FEMALE\"," +
             "\"dateOfBirth\": \"1995-01-01T22:00:00.000+00:00\"}";
 
-    @Before
-    public void beforeTest() throws IOException {
+    @Autowired
+    private MockMvc mvc;
+    @Autowired
+    private EmployeeController employeeController;
+    @Autowired
+    private EmployeeDao employeeDao;
+
+    @BeforeEach
+    public void prepareTestTable() throws IOException {
         employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/schema.sql")), StandardCharsets.UTF_8));
         employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/data.sql")), StandardCharsets.UTF_8));
     }
@@ -84,7 +76,7 @@ public class EmployeeControllerTest {
     @Test
     public void addEmployeeTest() throws Exception {
         MockHttpServletResponse response = mvc.perform(post("/employees")
-                .content(employeeJson)
+                .content(EMPLOYEE_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn()
@@ -97,7 +89,7 @@ public class EmployeeControllerTest {
     @Test
     public void updateEmployeeTest() throws Exception {
         MockHttpServletResponse response = mvc.perform(put("/employees/1")
-                .content(employeeJson)
+                .content(EMPLOYEE_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn()
