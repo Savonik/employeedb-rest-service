@@ -1,17 +1,23 @@
 package com.savonik.employeedb.rest;
 
 import com.savonik.employeedb.dao.EmployeeDao;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -24,12 +30,17 @@ public class EmployeeControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @InjectMocks
+    @Autowired
     private EmployeeController employeeController;
 
-//    @MockBean
-//    private EmployeeDao employeeDao;
+    @Autowired
+    private EmployeeDao employeeDao;
 
+    @BeforeEach
+    public void beforeTest() throws IOException {
+        employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/schema.sql")), StandardCharsets.UTF_8));
+        employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/data.sql")), StandardCharsets.UTF_8));
+    }
 
     @Test
     public void controllerLoads() {
@@ -52,8 +63,6 @@ public class EmployeeControllerTest {
 
     @Test
     public void canGetByIdWhenDoesNotExist() throws Exception {
-
-
         MockHttpServletResponse response = mvc.perform(get("/employees/0")
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn()
