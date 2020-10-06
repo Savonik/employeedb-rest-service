@@ -41,6 +41,7 @@ table {
     border-spacing: 15px;
 }
 
+
 input {
     border: 1px solid gray;
     background-color: #dcdcdc;
@@ -70,9 +71,9 @@ button {
 
 .select {
     position: relative;
-    /*display: block;*/
+    display: block;
     font-size: 150px;
-    /*color: #60666d;*/
+    color: #60666d;
     border-spacing: 15px;
     border: 1px solid gray;
     width: 100px;
