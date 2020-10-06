@@ -36,7 +36,7 @@ function showResult(employees) {
                 "</tr>";
         }
     );
-    $("#details").html(output);
+    $("#employee_list").html(output);
 }
 
 $("#add_employee").click(function () {

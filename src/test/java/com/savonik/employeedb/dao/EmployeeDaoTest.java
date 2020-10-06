@@ -4,7 +4,6 @@ import com.savonik.employeedb.dto.Employee;
 import com.savonik.employeedb.dto.Gender;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,16 +27,16 @@ public class EmployeeDaoTest {
     @Autowired
     private EmployeeDao employeeDao;
 
-    private List<Employee> testEmployees;
+    private List<Employee> employeeList;
     private Employee employee;
 
-    @BeforeEach
+    @Before
     public void beforeTest() throws ParseException, IOException {
         prepareTestTable();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        testEmployees = Arrays.asList(
+        employeeList = Arrays.asList(
                 new Employee(1L, "Ivan", "Ivanov",
                         1L, "programmer", Gender.MALE, dateFormat.parse("2000-10-10")),
                 new Employee(2L, "Stepan", "Stepanov",
@@ -59,9 +58,9 @@ public class EmployeeDaoTest {
         List<Employee> returnedEmployees = employeeDao.findAll();
 
         assertThat(returnedEmployees).hasSize(3);
-        assertThat(returnedEmployees.get(0).getEmployeeId()).isEqualTo(testEmployees.get(0).getEmployeeId());
-        assertThat(returnedEmployees.get(1).getFirstName()).isEqualTo(testEmployees.get(1).getFirstName());
-        assertThat(returnedEmployees.get(2).getGender()).isEqualTo(testEmployees.get(2).getGender());
+        assertThat(returnedEmployees.get(0).getEmployeeId()).isEqualTo(employeeList.get(0).getEmployeeId());
+        assertThat(returnedEmployees.get(1).getFirstName()).isEqualTo(employeeList.get(1).getFirstName());
+        assertThat(returnedEmployees.get(2).getGender()).isEqualTo(employeeList.get(2).getGender());
     }
 
     @Test
@@ -69,11 +68,11 @@ public class EmployeeDaoTest {
         List<Employee> returnedEmployees = employeeDao.findById(2L);
 
         assertThat(returnedEmployees).hasSize(1);
-        assertThat(returnedEmployees.get(0).getEmployeeId()).isEqualTo(testEmployees.get(1).getEmployeeId());
+        assertThat(returnedEmployees.get(0).getEmployeeId()).isEqualTo(employeeList.get(1).getEmployeeId());
     }
 
     @Test
-    public void notFindByIdTest() {
+    public void findByIdWhenDoesNotExistTest() {
         List<Employee> returnedEmployees = employeeDao.findById(5L);
 
         assertThat(returnedEmployees).hasSize(0);
@@ -85,6 +84,7 @@ public class EmployeeDaoTest {
 
         assertThat(employeeDao.findAll()).hasSize(4);
         assertThat(addStatus).isEqualTo(1);
+
         prepareTestTable();
     }
 
