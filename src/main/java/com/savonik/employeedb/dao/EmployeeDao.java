@@ -75,7 +75,7 @@ public class EmployeeDao {
                 id);
     }
 
-    void query(String query) {
+    public void query(String query) {
         jdbcTemplate.update(query);
     }
 }
