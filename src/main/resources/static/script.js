@@ -1,7 +1,7 @@
 $("#find_employee").click(function () {
     $("#operation_status").empty();
     $.ajax({
-        url: "/employees/" + $("#employee_id").val(),
+        url: "/employees/" + $("#id").val(),
         method: "GET",
         success: showResult,
         error: function () {
