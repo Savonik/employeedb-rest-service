@@ -60,7 +60,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void NotFindByIdTest() {
+    public void notFindByIdTest() {
         Mockito.when(employeeDao.findById(1L)).thenReturn(Collections.emptyList());
 
         List<Employee> returnedEmployee = employeeService.findById(1L);
