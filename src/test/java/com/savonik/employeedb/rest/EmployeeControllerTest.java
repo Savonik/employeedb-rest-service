@@ -87,7 +87,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void addEmployeeNotExistTest() throws Exception {
+    public void addEmployeeWhenDoesNotExistTest() throws Exception {
         MockHttpServletResponse response = mvc.perform(post("/employees")
                 .content("[]")
                 .accept(MediaType.APPLICATION_JSON)
@@ -113,7 +113,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void updateEmployeeNotExistTest() throws Exception {
+    public void updateEmployeeWhenDoesNotExistTest() throws Exception {
         MockHttpServletResponse response = mvc.perform(put("/employees/0")
                 .content(EMPLOYEE_JSON)
                 .accept(MediaType.APPLICATION_JSON)

@@ -60,7 +60,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void notFindByIdTest() {
+    public void findByIdWhenDoesNotExistTest() {
         Mockito.when(employeeDao.findById(1L)).thenReturn(Collections.emptyList());
 
         List<Employee> returnedEmployee = employeeService.findById(1L);
@@ -90,7 +90,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void notUpdateEmployeeTest() {
+    public void updateEmployeeWhenDoesNotExistTest() {
         Mockito.when(employeeDao.updateEmployee(employee, 1L)).thenReturn(0);
 
         int updateStatus = employeeService.updateEmployee(employee, 1L);
