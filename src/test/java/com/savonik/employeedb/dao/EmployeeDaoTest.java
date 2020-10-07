@@ -87,7 +87,7 @@ public class EmployeeDaoTest {
     }
 
     @Test
-    public void findByIdWhenDoesNotExistTest() {
+    public void findByIdWhenIdDoesNotExistTest() {
         List<Employee> returnedEmployees = employeeDao.findById(5L);
 
         assertThat(returnedEmployees).hasSize(0);
@@ -104,7 +104,7 @@ public class EmployeeDaoTest {
     }
 
     @Test(expected = DataIntegrityViolationException.class)
-    public void addEmployeeWhenDoesNotExistTest() {
+    public void addEmployeeWhenEmployeeHasNullFieldsTest() {
         employeeDao.addEmployee(new Employee());
     }
 

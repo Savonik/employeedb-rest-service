@@ -63,7 +63,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void getByIdWhenDoesNotExistTest() throws Exception {
+    public void getByIdWhenIdDoesNotExistTest() throws Exception {
         MockHttpServletResponse response = mvc.perform(get("/employees/0")
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn()
@@ -88,7 +88,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void addEmployeeWhenDoesNotExistTest() throws Exception {
+    public void addEmployeeWhenEmployeeDoesNotExistTest() throws Exception {
         MockHttpServletResponse response = mvc.perform(post("/employees")
                 .content("[]")
                 .accept(MediaType.APPLICATION_JSON)
@@ -114,7 +114,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void updateEmployeeWhenDoesNotExistTest() throws Exception {
+    public void updateEmployeeWhenIdDoesNotExistTest() throws Exception {
         MockHttpServletResponse response = mvc.perform(put("/employees/0")
                 .content(EMPLOYEE_JSON)
                 .accept(MediaType.APPLICATION_JSON)
