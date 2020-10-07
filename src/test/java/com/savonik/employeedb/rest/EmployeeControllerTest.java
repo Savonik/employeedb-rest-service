@@ -87,6 +87,19 @@ public class EmployeeControllerTest {
     }
 
     @Test
+    public void addEmployeeNotExistTest() throws Exception {
+        MockHttpServletResponse response = mvc.perform(post("/employees")
+                .content("[]")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(response.getContentAsString()).isEmpty();
+    }
+
+    @Test
     public void updateEmployeeTest() throws Exception {
         MockHttpServletResponse response = mvc.perform(put("/employees/1")
                 .content(EMPLOYEE_JSON)
@@ -96,6 +109,19 @@ public class EmployeeControllerTest {
                 .getResponse();
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getContentAsString()).isEmpty();
+    }
+
+    @Test
+    public void updateEmployeeNotExistTest() throws Exception {
+        MockHttpServletResponse response = mvc.perform(put("/employees/0")
+                .content(EMPLOYEE_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.NO_CONTENT.value());
         assertThat(response.getContentAsString()).isEmpty();
     }
 }
