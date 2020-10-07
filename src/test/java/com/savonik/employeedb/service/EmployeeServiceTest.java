@@ -90,7 +90,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void deleteEmployeeWhenDoesNotExistTest() {
+    public void deleteEmployeeWhenIdDoesNotExistTest() {
         Mockito.when(employeeDao.deleteEmployee(1L)).thenReturn(0);
 
         int deleteStatus = employeeService.deleteEmployee(1L);
@@ -110,7 +110,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void updateEmployeeWhenDoesNotExistTest() {
+    public void updateEmployeeWhenIdDoesNotExistTest() {
         Mockito.when(employeeDao.updateEmployee(employee, 1L)).thenReturn(0);
 
         int updateStatus = employeeService.updateEmployee(employee, 1L);
