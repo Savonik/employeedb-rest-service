@@ -19,7 +19,7 @@ public class EmployeeDao {
     }
 
     public List<Employee> findAll() {
-        final String query = "SELECT * FROM employee";
+        final String query = "SELECT * FROM employee ORDER BY employee_id";
         return jdbcTemplate.query(query, newInstance(Employee.class));
     }
 

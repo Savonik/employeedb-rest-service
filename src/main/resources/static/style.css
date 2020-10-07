@@ -2,28 +2,21 @@ body {
     font-family: "Century Gothic", sans-serif;
     font-size: 14pt;
     background-color: #f0f0f0;
-    color: #333;
+    color: #353131;
 }
 
 h2 {
-    color: #000000;
-    font-size: 24pt;
+    color: #2b2929;
+    font-size: 22px;
     font-family: "Century Gothic", Times serif;
-    font-weight: normal;
-    text-align: center;
-}
-
-h3 {
-    color: #a92b2b;
-    font-size: 20pt;
-    font-family: "Century Gothic", Times serif;
-    font-weight: normal;
+    font-weight: bold;
     text-align: center;
 }
 
 p {
     text-align: justify;
     margin-left: 60px;
+
     margin-right: 10px;
     border-left: 1px solid #999;
     border-bottom: 1px solid #999;
@@ -32,7 +25,7 @@ p {
 }
 
 table {
-    border: 1px black;
+    border: 1px solid #777676;
     background-color: #eeeeee;
     padding: 20px;
     align-content: center;
@@ -41,15 +34,16 @@ table {
     border-spacing: 15px;
 }
 
-
 input {
     border: 1px solid gray;
     background-color: #ffffff;
     padding: 5px;
     align-content: center;
     align-self: center;
-    margin: auto;
+    margin-top: 15px;
     border-spacing: 15px;
+    height: 15px;
+    width: 200px;
 }
 
 label {
@@ -62,6 +56,7 @@ button {
     font-weight: 700;
     color: white;
     text-decoration: none;
+    margin-top: 15px;
     padding: .8em 1em calc(.8em + 3px);
     border-radius: 3px;
     background: rgb(175, 179, 193);
@@ -69,13 +64,12 @@ button {
     transition: 0.2s;
 }
 
-.select {
+select {
+    display: inline-block;
+    width: 210px;
+    height: 25px;
     position: relative;
-    display: block;
-    font-size: 150px;
-    color: #60666d;
+    margin-top: 15px;
     border-spacing: 15px;
-    border: 1px solid gray;
-    width: 100px;
 }
 

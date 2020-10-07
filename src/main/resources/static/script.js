@@ -1,5 +1,5 @@
 $("#find_employee").click(function () {
-    $("#eployee_find").empty();
+    $("#operation_status").empty();
     $.ajax({
         url: "/employees/" + $("#employee_id").val(),
         method: "GET",
@@ -20,6 +20,7 @@ $(function () {
         );
     }
 );
+
 function showError() {
     alert("Sorry! Error on server!");
 }
@@ -79,7 +80,7 @@ $("#add_employee").click(function () {
 $("#delete_employee").click(function () {
     $("#operation_status").empty();
     $.ajax({
-        url: "/employees/" + $("#employee_id").val(),
+        url: "/employees/" + $("#id").val(),
         method: "DELETE",
         success: function () {
             $("#operation_status").append("Employee deleted");
