@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
@@ -45,6 +46,7 @@ public class EmployeeDaoTest {
 
     @Before
     public void prepareTestTable() throws IOException {
+        employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/drop.sql")), StandardCharsets.UTF_8));
         employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/schema.sql")), StandardCharsets.UTF_8));
         employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/data.sql")), StandardCharsets.UTF_8));
     }
@@ -57,6 +59,23 @@ public class EmployeeDaoTest {
         assertThat(returnedEmployees.get(0).getEmployeeId()).isEqualTo(employeeList.get(0).getEmployeeId());
         assertThat(returnedEmployees.get(1).getFirstName()).isEqualTo(employeeList.get(1).getFirstName());
         assertThat(returnedEmployees.get(2).getGender()).isEqualTo(employeeList.get(2).getGender());
+    }
+
+    @Test
+    public void findAllWhenTableIsEmptyTest() throws IOException {
+        employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/drop.sql")), StandardCharsets.UTF_8));
+        employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/schema.sql")), StandardCharsets.UTF_8));
+
+        List<Employee> returnedEmployees = employeeDao.findAll();
+
+        assertThat(returnedEmployees).isEmpty();
+    }
+
+    @Test(expected = BadSqlGrammarException.class)
+    public void findAllWhenTableDoesNotExistTest() throws IOException {
+        employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/drop.sql")), StandardCharsets.UTF_8));
+
+        employeeDao.findAll();
     }
 
     @Test
