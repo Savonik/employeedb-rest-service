@@ -36,7 +36,7 @@ public class EmployeeControllerTest {
     private EmployeeDao employeeDao;
 
     @BeforeEach
-    public void prepareTestTable() throws IOException {
+    public void configureDb() throws IOException {
         employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/drop.sql")), StandardCharsets.UTF_8));
         employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/schema.sql")), StandardCharsets.UTF_8));
         employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/data.sql")), StandardCharsets.UTF_8));

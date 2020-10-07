@@ -45,7 +45,7 @@ public class EmployeeDaoTest {
     }
 
     @Before
-    public void prepareTestTable() throws IOException {
+    public void configureDb() throws IOException {
         employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/drop.sql")), StandardCharsets.UTF_8));
         employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/schema.sql")), StandardCharsets.UTF_8));
         employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/data.sql")), StandardCharsets.UTF_8));
@@ -100,7 +100,7 @@ public class EmployeeDaoTest {
         assertThat(employeeDao.findAll()).hasSize(4);
         assertThat(addStatus).isEqualTo(1);
 
-        prepareTestTable();
+        configureDb();
     }
 
     @Test(expected = DataIntegrityViolationException.class)
@@ -116,6 +116,6 @@ public class EmployeeDaoTest {
         assertThat(employeeDao.findAll()).hasSize(3);
         assertThat(updateStatus).isEqualTo(1);
 
-        prepareTestTable();
+        configureDb();
     }
 }
