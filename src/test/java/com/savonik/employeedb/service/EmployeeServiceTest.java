@@ -50,7 +50,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void findAllWhenDoesNotExistTest() {
+    public void findAllWhenTableIsEmptyTest() {
         Mockito.when(employeeDao.findAll()).thenReturn(Collections.EMPTY_LIST);
 
         List<Employee> returnedEmployees = employeeService.findAll();
@@ -70,7 +70,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void findByIdWhenDoesNotExistTest() {
+    public void findByIdWhenIdDoesNotExistTest() {
         Mockito.when(employeeDao.findById(1L)).thenReturn(Collections.emptyList());
 
         List<Employee> returnedEmployee = employeeService.findById(1L);
