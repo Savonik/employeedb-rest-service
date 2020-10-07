@@ -4,9 +4,10 @@ import com.savonik.employeedb.dto.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import static org.springframework.jdbc.core.BeanPropertyRowMapper.newInstance;
 
 import java.util.List;
+
+import static org.springframework.jdbc.core.BeanPropertyRowMapper.newInstance;
 
 @Repository
 public class EmployeeDao {
@@ -74,7 +75,7 @@ public class EmployeeDao {
                 id);
     }
 
-    public void query(String query) {
+    void query(String query) {
         jdbcTemplate.update(query);
     }
 }
