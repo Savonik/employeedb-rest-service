@@ -50,6 +50,16 @@ public class EmployeeServiceTest {
     }
 
     @Test
+    public void findAllWhenDoesNotExistTest() {
+        Mockito.when(employeeDao.findAll()).thenReturn(Collections.EMPTY_LIST);
+
+        List<Employee> returnedEmployees = employeeService.findAll();
+        assertThat(returnedEmployees).isEqualTo(Collections.EMPTY_LIST);
+
+        Mockito.verify(employeeDao).findAll();
+    }
+
+    @Test
     public void findByIdTest() {
         Mockito.when(employeeDao.findById(1L)).thenReturn(employeeList);
 
@@ -75,6 +85,16 @@ public class EmployeeServiceTest {
 
         int deleteStatus = employeeService.deleteEmployee(1L);
         assertThat(deleteStatus).isEqualTo(1);
+
+        Mockito.verify(employeeDao).deleteEmployee(1L);
+    }
+
+    @Test
+    public void deleteEmployeeWhenDoesNotExistTest() {
+        Mockito.when(employeeDao.deleteEmployee(1L)).thenReturn(0);
+
+        int deleteStatus = employeeService.deleteEmployee(1L);
+        assertThat(deleteStatus).isEqualTo(0);
 
         Mockito.verify(employeeDao).deleteEmployee(1L);
     }
