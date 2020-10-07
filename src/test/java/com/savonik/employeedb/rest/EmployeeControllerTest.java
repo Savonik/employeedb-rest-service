@@ -42,7 +42,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void controllerLoads() {
+    public void controllerLoadsTest() {
         assertThat(employeeController).isNotNull();
     }
 
