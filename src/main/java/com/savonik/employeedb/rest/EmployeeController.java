@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.springframework.http.ResponseEntity.notFound;
-import static org.springframework.http.ResponseEntity.ok;
+import static org.springframework.http.ResponseEntity.*;
 
 @RequestMapping("/employees")
 @RestController
@@ -36,8 +35,8 @@ public class EmployeeController {
 
     @PostMapping
     public ResponseEntity<Object> addNewEmployee(@RequestBody Employee newEmployee) {
-        employeeService.addEmployee(newEmployee);
-        return ok().build();
+        int addResult = employeeService.addEmployee(newEmployee);
+        return addResult == 0 ? badRequest().build() : ok().build();
     }
 
     @DeleteMapping("/{id}")
