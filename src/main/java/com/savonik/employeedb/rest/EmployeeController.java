@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RequestMapping("/employees")
 @RestController
@@ -27,7 +26,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Employee> getById(@PathVariable(value = "id") Long id) {
+    public Employee getById(@PathVariable(value = "id") Long id) {
         return employeeService.getById(id);
     }
 

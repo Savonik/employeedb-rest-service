@@ -22,12 +22,12 @@ public class EmployeeService {
         return employeeDao.findAll();
     }
 
-    public Optional<Employee> getById(Long id) {
+    public Employee getById(Long id) {
         Optional<Employee> employee = employeeDao.findById(id);
         if (!employee.isPresent()) {
             throw new NoSuchElementException();
         }
-        return employee;
+        return employee.get();
     }
 
     public Employee addEmployee(Employee newEmployee) {
@@ -39,11 +39,7 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(Long id, Employee employeeDetails) {
-        return employeeDao.save( new Employee(id, employeeDetails.getFirstName(),
-                employeeDetails.getLastName(),
-                employeeDetails.getDepartmentId(),
-                employeeDetails.getJobTitle(),
-                employeeDetails.getGender(),
-                employeeDetails.getDateOfBirth()));
+        employeeDetails.setEmployeeId(id);
+        return employeeDao.save(employeeDetails);
     }
 }
