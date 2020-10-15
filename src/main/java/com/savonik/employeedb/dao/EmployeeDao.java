@@ -70,7 +70,7 @@ public class EmployeeDao {
                 employeeDetails.getLastName(),
                 employeeDetails.getDepartmentId(),
                 employeeDetails.getJobTitle(),
-                employeeDetails.getGender().toString(),
+                String.valueOf(employeeDetails.getGender()),
                 employeeDetails.getDateOfBirth(),
                 id);
     }

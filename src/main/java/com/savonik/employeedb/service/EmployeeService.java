@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class EmployeeService {
@@ -17,23 +18,31 @@ public class EmployeeService {
         this.employeeDao = employeeDao;
     }
 
-    public List<Employee> findAll() {
+    public List<Employee> getAll() {
         return employeeDao.findAll();
     }
 
-    public int addEmployee(Employee newEmployee) {
-        return employeeDao.addEmployee(newEmployee);
-    }
-
-    public List<Employee> findById(Long id) {
+    public List<Employee> getById(Long id) {
         return employeeDao.findById(id);
     }
 
+    public void addEmployee(Employee newEmployee) {
+        employeeDao.addEmployee(newEmployee);
+    }
+
     public int deleteEmployee(Long id) {
-        return employeeDao.deleteEmployee(id);
+        int deleteStatus = employeeDao.deleteEmployee(id);
+        if (deleteStatus == 0) {
+            throw new NoSuchElementException();
+        }
+        return deleteStatus;
     }
 
     public int updateEmployee(Employee employeeDetails, Long id) {
-        return employeeDao.updateEmployee(employeeDetails, id);
+        int updateStatus = employeeDao.updateEmployee(employeeDetails, id);
+        if (updateStatus == 0) {
+            throw new NoSuchElementException();
+        }
+        return updateStatus;
     }
 }

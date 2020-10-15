@@ -3,12 +3,12 @@ package com.savonik.employeedb.rest;
 import com.savonik.employeedb.dto.Employee;
 import com.savonik.employeedb.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static org.springframework.http.ResponseEntity.*;
+import java.util.NoSuchElementException;
 
 @RequestMapping("/employees")
 @RestController
@@ -22,32 +22,38 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Employee>> getAll() {
-        List<Employee> employees = employeeService.findAll();
-        return ok(employees);
+    public List<Employee> getAll() {
+        return employeeService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<Employee>> getById(@PathVariable(value = "id") Long id) {
-        List<Employee> employees = employeeService.findById(id);
-        return ok(employees);
+    public List<Employee> getById(@PathVariable(value = "id") Long id) {
+        return employeeService.getById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Object> addNewEmployee(@RequestBody Employee newEmployee) {
-        int addResult = employeeService.addEmployee(newEmployee);
-        return addResult == 0 ? badRequest().build() : ok().build();
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addEmployee(@RequestBody Employee employee) {
+        employeeService.addEmployee(employee);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteEmployee(@PathVariable(value = "id") Long id) {
-        int deleteResult = employeeService.deleteEmployee(id);
-        return deleteResult == 0 ? notFound().build() : ok().build();
+    public void deleteEmployee(@PathVariable(value = "id") Long id) {
+        employeeService.deleteEmployee(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateEmployee(@RequestBody Employee employeeDetails, @PathVariable Long id) {
-        int updateResult = employeeService.updateEmployee(employeeDetails, id);
-        return updateResult == 0 ? notFound().build() : ok().build();
+    public void updateEmployee(@RequestBody Employee employeeDetails, @PathVariable Long id) {
+        employeeService.updateEmployee(employeeDetails, id);
+    }
+
+    @ExceptionHandler(value = NoSuchElementException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public void handleNoSuchElementException(Exception ex) {
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public void handleDataIntegrityViolationException(Exception ex) {
     }
 }
