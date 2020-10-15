@@ -7,8 +7,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RequestMapping("/employees")
 @RestController
@@ -22,19 +22,19 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getAll() {
+    public Iterable<Employee> getAll() {
         return employeeService.getAll();
     }
 
     @GetMapping("/{id}")
-    public List<Employee> getById(@PathVariable(value = "id") Long id) {
+    public Optional<Employee> getById(@PathVariable(value = "id") Long id) {
         return employeeService.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addEmployee(@RequestBody Employee employee) {
-        employeeService.addEmployee(employee);
+    public Employee addEmployee(@RequestBody Employee employee) {
+        return employeeService.addEmployee(employee);
     }
 
     @DeleteMapping("/{id}")
@@ -43,8 +43,8 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public void updateEmployee(@RequestBody Employee employeeDetails, @PathVariable Long id) {
-        employeeService.updateEmployee(employeeDetails, id);
+    public void updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
+        employeeService.updateEmployee(id, employeeDetails);
     }
 
     @ExceptionHandler(value = NoSuchElementException.class)

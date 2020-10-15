@@ -43,7 +43,7 @@ public class EmployeeServiceTest {
     public void findAllTest() {
         Mockito.when(employeeDao.findAll()).thenReturn(employeeList);
 
-        List<Employee> returnedEmployees = employeeService.getAll();
+        List<Employee> returnedEmployees = (List<Employee>) employeeService.getAll();
         assertThat(returnedEmployees).isEqualTo(employeeList);
 
         Mockito.verify(employeeDao).findAll();
@@ -53,7 +53,7 @@ public class EmployeeServiceTest {
     public void findAllWhenTableIsEmptyTest() {
         Mockito.when(employeeDao.findAll()).thenReturn(Collections.EMPTY_LIST);
 
-        List<Employee> returnedEmployees = employeeService.getAll();
+        List<Employee> returnedEmployees = (List<Employee>) employeeService.getAll();
         assertThat(returnedEmployees).isEqualTo(Collections.EMPTY_LIST);
 
         Mockito.verify(employeeDao).findAll();
@@ -61,60 +61,22 @@ public class EmployeeServiceTest {
 
     @Test
     public void findByIdTest() {
-        Mockito.when(employeeDao.findById(1L)).thenReturn(employeeList);
+        Mockito.when(employeeDao.findById(1L)).thenReturn(Optional.of(employee));
 
-        List<Employee> returnedEmployee = employeeService.getById(1L);
-        assertThat(returnedEmployee).isEqualTo(employeeList);
+        Optional<Employee> returnedEmployee = employeeService.getById(1L);
+        assertThat(returnedEmployee).isEqualTo(employee);
 
         Mockito.verify(employeeDao).findById(1L);
     }
 
     @Test
     public void findByIdWhenIdDoesNotExistTest() {
-        Mockito.when(employeeDao.findById(1L)).thenReturn(Collections.emptyList());
+        Mockito.when(employeeDao.findById(1L)).thenReturn(null);
 
-        List<Employee> returnedEmployee = employeeService.getById(1L);
-        assertThat(returnedEmployee).isEqualTo(Collections.emptyList());
+        Optional<Employee> returnedEmployee = employeeService.getById(1L);
+        assertThat(returnedEmployee).isEqualTo(null);
 
         Mockito.verify(employeeDao).findById(1L);
-    }
-
-    @Test
-    public void deleteEmployeeTest() {
-        Mockito.when(employeeDao.deleteEmployee(1L)).thenReturn(1);
-
-        int deleteStatus = employeeService.deleteEmployee(1L);
-        assertThat(deleteStatus).isEqualTo(1);
-
-        Mockito.verify(employeeDao).deleteEmployee(1L);
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void deleteEmployeeWhenIdDoesNotExistTest() {
-        Mockito.when(employeeDao.deleteEmployee(1L)).thenReturn(0);
-
-        employeeService.deleteEmployee(1L);
-
-        Mockito.verify(employeeDao).deleteEmployee(1L);
-    }
-
-    @Test
-    public void updateEmployeeTest() {
-        Mockito.when(employeeDao.updateEmployee(employee, 1L)).thenReturn(1);
-
-        int updateStatus = employeeService.updateEmployee(employee, 1L);
-        assertThat(updateStatus).isEqualTo(1);
-
-        Mockito.verify(employeeDao).updateEmployee(employee, 1L);
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void updateEmployeeWhenIdDoesNotExistTest() {
-        Mockito.when(employeeDao.updateEmployee(employee, 1L)).thenReturn(0);
-
-        employeeService.updateEmployee(employee, 1L);
-
-        Mockito.verify(employeeDao).updateEmployee(employee, 1L);
     }
 
 }

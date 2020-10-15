@@ -1,81 +1,35 @@
 package com.savonik.employeedb.dao;
 
 import com.savonik.employeedb.dto.Employee;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import com.savonik.employeedb.dto.Gender;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-import static org.springframework.jdbc.core.BeanPropertyRowMapper.newInstance;
+import java.util.Date;
 
 @Repository
-public class EmployeeDao {
+public interface EmployeeDao extends CrudRepository<Employee, Long> {
 
-    private final JdbcTemplate jdbcTemplate;
+    @Transactional
+    @Modifying
+    @Query("UPDATE Employee e SET e.firstName=:firstName, " +
+            "e.lastName=:lastName," +
+            "e.departmentId=:departmentId," +
+            "e.jobTitle=:jobTitle," +
+            "e.gender=:gender," +
+            "e.dateOfBirth=:dateOfBirth WHERE e.employeeId =:employeeId")
+    int updateEmployee(@Param("employeeId") Long employeeId,
+                       @Param("firstName") String firstName,
+                       @Param("lastName") String lastName,
+                       @Param("departmentId") Long departmentId,
+                       @Param("jobTitle") String jobTitle,
+                       @Param("gender") Gender gender,
+                       @Param("dateOfBirth") Date dateOfBirth);
 
-    @Autowired
-    public EmployeeDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public List<Employee> findAll() {
-        final String query = "SELECT * FROM employee ORDER BY employee_id";
-        return jdbcTemplate.query(query, newInstance(Employee.class));
-    }
-
-    public List<Employee> findById(Long id) {
-        final String query = "SELECT * FROM employee WHERE employee_id = ?";
-        return jdbcTemplate.query(query, newInstance(Employee.class), id);
-    }
-
-    public int addEmployee(Employee newEmployee) {
-        final String query = "INSERT INTO employee(" +
-                "first_name," +
-                "last_name," +
-                "department_id," +
-                "job_title," +
-                "gender," +
-                "date_of_birth) " +
-                "VALUES(?, ?, ?, ?, ?, ?);";
-
-        return jdbcTemplate.update(
-                query,
-                newEmployee.getFirstName(),
-                newEmployee.getLastName(),
-                newEmployee.getDepartmentId(),
-                newEmployee.getJobTitle(),
-                String.valueOf(newEmployee.getGender()),
-                newEmployee.getDateOfBirth());
-    }
-
-    public int deleteEmployee(Long id) {
-        final String query = "DELETE FROM employee WHERE employee_id = ?";
-        return jdbcTemplate.update(query, id);
-    }
-
-    public int updateEmployee(Employee employeeDetails, long id) {
-        final String query = "UPDATE employee " +
-                "SET first_name = ?, " +
-                "last_name = ?, " +
-                "department_id = ?, " +
-                "job_title = ?, " +
-                "gender = ?," +
-                "date_of_birth = ? " +
-                "WHERE employee_id = ?;";
-
-        return jdbcTemplate.update(
-                query,
-                employeeDetails.getFirstName(),
-                employeeDetails.getLastName(),
-                employeeDetails.getDepartmentId(),
-                employeeDetails.getJobTitle(),
-                String.valueOf(employeeDetails.getGender()),
-                employeeDetails.getDateOfBirth(),
-                id);
-    }
-
-    public void query(String query) {
-        jdbcTemplate.update(query);
-    }
 }
+
+

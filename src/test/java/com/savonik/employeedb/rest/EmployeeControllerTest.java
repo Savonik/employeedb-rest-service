@@ -1,9 +1,7 @@
 package com.savonik.employeedb.rest;
 
 import com.savonik.employeedb.dao.EmployeeDao;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,11 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -35,13 +28,6 @@ public class EmployeeControllerTest {
     @Autowired
     private EmployeeDao employeeDao;
 
-    @BeforeEach
-    public void configureDb() throws IOException {
-        employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/drop.sql")), StandardCharsets.UTF_8));
-        employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/schema.sql")), StandardCharsets.UTF_8));
-        employeeDao.query(new String(Files.readAllBytes(Paths.get("src/main/resources/data.sql")), StandardCharsets.UTF_8));
-    }
-
     @Test
     public void controllerLoadsTest() {
         assertThat(employeeController).isNotNull();
@@ -58,8 +44,8 @@ public class EmployeeControllerTest {
         assertThat(response.getContentAsString()).isNotEmpty();
 
         assertThat(response.getContentAsString()).isEqualTo(
-                "[{\"employeeId\":1,\"firstName\":\"Ivan\",\"lastName\":\"Ivanov\",\"departmentId\":1,\"jobTitle\":" +
-                        "\"engineer\",\"gender\":\"MALE\",\"dateOfBirth\":\"2000-10-09T21:00:00.000+00:00\"}]");
+                "{\"employeeId\":1,\"firstName\":\"Ivan\",\"lastName\":\"Ivanov\",\"departmentId\":1,\"jobTitle\":" +
+                        "\"engineer\",\"gender\":\"MALE\",\"dateOfBirth\":\"2000-10-09T21:00:00.000+00:00\"}");
     }
 
     @Test
@@ -69,9 +55,8 @@ public class EmployeeControllerTest {
                 .andReturn()
                 .getResponse();
 
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString()).isNotEmpty();
-        assertThat(response.getContentAsString()).isEqualTo("[]");
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
+        assertThat(response.getContentAsString()).isEmpty();
     }
 
     @Test
@@ -84,7 +69,8 @@ public class EmployeeControllerTest {
                 .getResponse();
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
-        assertThat(response.getContentAsString()).isEmpty();
+        assertThat(response.getContentAsString())
+                .isEqualTo("{\"employeeId\":4,\"firstName\":\"Anna\",\"lastName\":\"Lopukhova\",\"departmentId\":3,\"jobTitle\":\"accountant\",\"gender\":\"FEMALE\",\"dateOfBirth\":\"1995-01-01T22:00:00.000+00:00\"}");
     }
 
     @Test
@@ -122,7 +108,7 @@ public class EmployeeControllerTest {
                 .andReturn()
                 .getResponse();
 
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         assertThat(response.getContentAsString()).isEmpty();
     }
 }

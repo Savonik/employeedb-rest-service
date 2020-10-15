@@ -3,10 +3,11 @@ package com.savonik.employeedb.service;
 import com.savonik.employeedb.dao.EmployeeDao;
 import com.savonik.employeedb.dto.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -18,31 +19,37 @@ public class EmployeeService {
         this.employeeDao = employeeDao;
     }
 
-    public List<Employee> getAll() {
+    public Iterable<Employee> getAll() {
         return employeeDao.findAll();
     }
 
-    public List<Employee> getById(Long id) {
-        return employeeDao.findById(id);
-    }
-
-    public void addEmployee(Employee newEmployee) {
-        employeeDao.addEmployee(newEmployee);
-    }
-
-    public int deleteEmployee(Long id) {
-        int deleteStatus = employeeDao.deleteEmployee(id);
-        if (deleteStatus == 0) {
+    public Optional<Employee> getById(Long id) {
+        Optional<Employee> employee = employeeDao.findById(id);
+        if (!employee.isPresent()) {
             throw new NoSuchElementException();
         }
-        return deleteStatus;
+        return employee;
     }
 
-    public int updateEmployee(Employee employeeDetails, Long id) {
-        int updateStatus = employeeDao.updateEmployee(employeeDetails, id);
-        if (updateStatus == 0) {
-            throw new NoSuchElementException();
+    public Employee addEmployee(Employee newEmployee) {
+        return employeeDao.save(newEmployee);
+    }
+
+    public void deleteEmployee(Long id) {
+        employeeDao.deleteById(id);
+    }
+
+    public int updateEmployee(Long id, Employee employeeDetails) {
+        int updatedRows = employeeDao.updateEmployee(id, employeeDetails.getFirstName(),
+                employeeDetails.getLastName(),
+                employeeDetails.getDepartmentId(),
+                employeeDetails.getJobTitle(),
+                employeeDetails.getGender(),
+                employeeDetails.getDateOfBirth()
+        );
+        if (updatedRows == 0) {
+            throw new DataIntegrityViolationException("Row haven't been found");
         }
-        return updateStatus;
+        return updatedRows;
     }
 }
