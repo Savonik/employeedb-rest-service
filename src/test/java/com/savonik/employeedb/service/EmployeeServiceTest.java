@@ -71,9 +71,9 @@ public class EmployeeServiceTest {
 
     @Test
     public void findByIdWhenIdDoesNotExistTest() {
-        Mockito.when(employeeDao.findById(1L)).thenReturn(null);
+        Mockito.when(employeeDao.findById(0L)).thenReturn(null);
 
-        Optional<Employee> returnedEmployee = employeeService.getById(1L);
+        Optional<Employee> returnedEmployee = employeeService.getById(0L);
         assertThat(returnedEmployee).isEqualTo(null);
 
         Mockito.verify(employeeDao).findById(1L);

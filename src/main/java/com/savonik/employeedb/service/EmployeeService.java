@@ -3,7 +3,6 @@ package com.savonik.employeedb.service;
 import com.savonik.employeedb.dao.EmployeeDao;
 import com.savonik.employeedb.dto.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -39,17 +38,12 @@ public class EmployeeService {
         employeeDao.deleteById(id);
     }
 
-    public int updateEmployee(Long id, Employee employeeDetails) {
-        int updatedRows = employeeDao.updateEmployee(id, employeeDetails.getFirstName(),
+    public Employee updateEmployee(Long id, Employee employeeDetails) {
+        return employeeDao.save( new Employee(id, employeeDetails.getFirstName(),
                 employeeDetails.getLastName(),
                 employeeDetails.getDepartmentId(),
                 employeeDetails.getJobTitle(),
                 employeeDetails.getGender(),
-                employeeDetails.getDateOfBirth()
-        );
-        if (updatedRows == 0) {
-            throw new DataIntegrityViolationException("Row haven't been found");
-        }
-        return updatedRows;
+                employeeDetails.getDateOfBirth()));
     }
 }

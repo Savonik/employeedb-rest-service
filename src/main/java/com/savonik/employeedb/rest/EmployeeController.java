@@ -43,8 +43,8 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public void updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
-        employeeService.updateEmployee(id, employeeDetails);
+    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
+        return employeeService.updateEmployee(id, employeeDetails);
     }
 
     @ExceptionHandler(value = NoSuchElementException.class)
