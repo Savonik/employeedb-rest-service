@@ -2,6 +2,7 @@ package com.savonik.employeedb.rest;
 
 import com.savonik.employeedb.exception.EmployeeServiceException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,6 +27,13 @@ public class ExceptionHandlerController {
     @ResponseStatus(BAD_REQUEST)
     public String handleMethodArgumentNotValidException(Exception ex) {
         log.error("MethodArgumentNotValid occurred: " + ex.getMessage(), ex);
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public String handleHttpMessageNotReadableException(Exception ex) {
+        log.error("HttpMessageNotReadableException occurred: " + ex.getMessage(), ex);
         return ex.getMessage();
     }
 

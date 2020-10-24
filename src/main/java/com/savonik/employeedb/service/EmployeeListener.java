@@ -23,11 +23,4 @@ public class EmployeeListener {
         employeeService.addEmployee(objectMapper.readValue(employee, Employee.class));
         System.out.println(employee);
     }
-
-    @JmsListener(destination = "queue")
-    public void receiveAndSendMessage(String employee) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        employeeService.addEmployee(objectMapper.readValue(employee, Employee.class));
-        System.out.println(employee);
-    }
 }
