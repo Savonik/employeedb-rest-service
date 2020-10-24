@@ -89,18 +89,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-activemq</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>4.1.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-maven-plugin</artifactId>
-            <version>4.1.1</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -108,14 +96,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>3.5.1</version>
-                <configuration>
-                    <propertyFile>src/main/resources/liquibase.properties</propertyFile>
-                </configuration>
             </plugin>
         </plugins>
     </build>
