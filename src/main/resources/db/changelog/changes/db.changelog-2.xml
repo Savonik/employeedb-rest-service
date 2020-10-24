@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2" author="Savonik">
+        <insert tableName="employee">
+            <column name="first_name" value="Ivan"/>
+            <column name="last_name" value="Ivanov"/>
+            <column name="department_id" value="1"/>
+            <column name="job_title" value="engineer"/>
+            <column name="gender" value="MALE"/>
+            <column name="date_of_birth" value="2020-10-23T21:00:00.000+00:00"/>
+        </insert>
+
+        <insert tableName="employee">
+            <column name="first_name" value="Stepan"/>
+            <column name="last_name" value="Stepanov"/>
+            <column name="department_id" value="2"/>
+            <column name="job_title" value="engineer"/>
+            <column name="gender" value="MALE"/>
+            <column name="date_of_birth" value="2020-10-23T21:00:00.000+00:00"/>
+        </insert>
+
+        <insert tableName="employee">
+            <column name="first_name" value="Alla"/>
+            <column name="last_name" value="Allohina"/>
+            <column name="department_id" value="2"/>
+            <column name="job_title" value="engineer"/>
+            <column name="gender" value="FEMALE"/>
+            <column name="date_of_birth" value="2020-10-23T21:00:00.000+00:00"/>
+        </insert>
+
+        <rollback>
+            delete from employee where first_name='Ivan';
+            delete from employee where first_name='Stepan';
+            delete from employee where first_name='Alla';
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
