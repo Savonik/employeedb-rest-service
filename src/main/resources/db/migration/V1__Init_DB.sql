@@ -1,4 +1,4 @@
-    CREATE TABLE employee
+CREATE TABLE employee
 (
     employee_id   serial primary key,
     first_name    text NOT NULL,
@@ -8,4 +8,3 @@
     gender        text CHECK (gender = 'MALE' OR gender = 'FEMALE'),
     date_of_birth date NOT NULL
 );
-
