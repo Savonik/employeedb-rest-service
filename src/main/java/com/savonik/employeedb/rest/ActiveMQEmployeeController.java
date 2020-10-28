@@ -29,13 +29,12 @@ public class ActiveMQEmployeeController {
         this.jmsTemplate = jmsTemplate;
     }
 
-    @Async
     @PostMapping
     @ApiOperation("add a new employee with JMS")
     @ResponseStatus(CREATED)
     public void addNewEmployee(@Valid @RequestBody Employee employee) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         log.info("Trying to create " + employee.toString());
-        jmsTemplate.convertAndSend("queue", objectMapper.writeValueAsString(employee));
+        jmsTemplate.convertAndSend("employee_queue", objectMapper.writeValueAsString(employee));
     }
 }

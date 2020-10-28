@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="2" author="Savonik">
+    <changeSet id="core-data-01" author="Savonik">
         <insert tableName="employee">
             <column name="first_name" value="Ivan"/>
             <column name="last_name" value="Ivanov"/>
@@ -37,6 +37,7 @@
             delete from employee where first_name='Ivan';
             delete from employee where first_name='Stepan';
             delete from employee where first_name='Alla';
+<!--            replace-->
         </rollback>
     </changeSet>
 

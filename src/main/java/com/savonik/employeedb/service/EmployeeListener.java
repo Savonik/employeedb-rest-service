@@ -17,7 +17,7 @@ public class EmployeeListener {
         this.employeeService = employeeService;
     }
 
-    @JmsListener(destination = "queue")
+    @JmsListener(destination = "employee_queue")
     public void receiveMessage(String employee) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         employeeService.addEmployee(objectMapper.readValue(employee, Employee.class));

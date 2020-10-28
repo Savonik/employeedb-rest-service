@@ -22,6 +22,7 @@ public class ExceptionHandlerController {
     public String handleEmployeeServiceException(Exception ex) {
         return ex.getMessage();
     }
+    //create notFoundException
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(BAD_REQUEST)
