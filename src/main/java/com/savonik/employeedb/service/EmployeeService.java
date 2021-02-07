@@ -2,12 +2,14 @@ package com.savonik.employeedb.service;
 
 import com.savonik.employeedb.dao.EmployeeDao;
 import com.savonik.employeedb.dto.Employee;
+import com.savonik.employeedb.exception.EmployeeServiceException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
+@Slf4j
 @Service
 public class EmployeeService {
 
@@ -18,31 +20,45 @@ public class EmployeeService {
         this.employeeDao = employeeDao;
     }
 
-    public List<Employee> getAll() {
+    public Iterable<Employee> getAll() {
         return employeeDao.findAll();
     }
 
-    public List<Employee> getById(Long id) {
-        return employeeDao.findById(id);
-    }
-
-    public void addEmployee(Employee newEmployee) {
-        employeeDao.addEmployee(newEmployee);
-    }
-
-    public int deleteEmployee(Long id) {
-        int deleteStatus = employeeDao.deleteEmployee(id);
-        if (deleteStatus == 0) {
-            throw new NoSuchElementException();
+    public Employee getById(Long id) {
+        Optional<Employee> employee = employeeDao.findById(id);
+        if (!employee.isPresent()) {
+            EmployeeServiceException employeeServiceException =
+                    new EmployeeServiceException(String.format("Employee with id = %s doesn't exist", id));
+            log.error(employeeServiceException.getMessage());
+            throw employeeServiceException;
         }
-        return deleteStatus;
+        return employee.get();
     }
 
-    public int updateEmployee(Employee employeeDetails, Long id) {
-        int updateStatus = employeeDao.updateEmployee(employeeDetails, id);
-        if (updateStatus == 0) {
-            throw new NoSuchElementException();
+    public Employee addEmployee(Employee newEmployee) {
+            return employeeDao.save(newEmployee);
+    }
+
+    public void deleteEmployee(Long id) {
+        try {
+            employeeDao.deleteById(id);
+        } catch (Exception ex) {
+            EmployeeServiceException employeeServiceException =
+                    new EmployeeServiceException(String.format("Employee with id = %s wasn't deleted", id), ex);
+            log.error(employeeServiceException.getMessage(), ex);
+            throw employeeServiceException;
         }
-        return updateStatus;
+    }
+
+    public Employee updateEmployee(Long id, Employee employeeDetails) {
+        log.info(String.format("Check if employee with id = %s presents", id));
+        if (!employeeDao.findById(id).isPresent()) {
+            EmployeeServiceException employeeServiceException =
+                    new EmployeeServiceException(String.format("Employee with id = %s doesn't exist", id));
+            log.error(employeeServiceException.getMessage());
+            throw employeeServiceException;
+        }
+        employeeDetails.setEmployeeId(id);
+        return employeeDao.save(employeeDetails);
     }
 }

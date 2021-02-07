@@ -2,16 +2,23 @@ package com.savonik.employeedb.rest;
 
 import com.savonik.employeedb.dto.Employee;
 import com.savonik.employeedb.service.EmployeeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.NoSuchElementException;
+import javax.validation.Valid;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
+@Slf4j
 @RequestMapping("/employees")
 @RestController
+@Api("Employee-controller")
+@ApiResponses(@ApiResponse(code = 500, message = "SERVER ERROR"))
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -22,38 +29,43 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getAll() {
+    @ApiOperation("get a list of employees")
+    public Iterable<Employee> getAll() {
+        log.info("Trying to get employee list");
         return employeeService.getAll();
     }
 
     @GetMapping("/{id}")
-    public List<Employee> getById(@PathVariable(value = "id") Long id) {
+    @ApiOperation("get an employee by id")
+    @ApiResponse(code = 404, message = "NOT FOUND")
+    public Employee getById(@PathVariable(value = "id") Long id) {
+        log.info("Trying to find employee with id = " + id);
         return employeeService.getById(id);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addEmployee(@RequestBody Employee employee) {
-        employeeService.addEmployee(employee);
+    @ApiOperation("add a new employee to employee list")
+    @ApiResponse(code = 400, message = "BAD REQUEST")
+    @ResponseStatus(CREATED)
+    public Employee addEmployee(@Valid @RequestBody Employee employee) {
+        log.info("Trying to create " + employee.toString());
+        return employeeService.addEmployee(employee);
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation("delete an employee by id")
+    @ApiResponse(code = 404, message = "NOT FOUND")
     public void deleteEmployee(@PathVariable(value = "id") Long id) {
+        log.info("Trying to delete employee with id = " + id);
         employeeService.deleteEmployee(id);
     }
 
     @PutMapping("/{id}")
-    public void updateEmployee(@RequestBody Employee employeeDetails, @PathVariable Long id) {
-        employeeService.updateEmployee(employeeDetails, id);
-    }
-
-    @ExceptionHandler(value = NoSuchElementException.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public void handleNoSuchElementException(Exception ex) {
-    }
-
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public void handleDataIntegrityViolationException(Exception ex) {
+    @ApiOperation("change employee data by id")
+    @ApiResponses(value = {@ApiResponse(code = 404, message = "NOT FOUND"),
+            @ApiResponse(code = 400, message = "BAD REQUEST")})
+    public Employee updateEmployee(@PathVariable Long id, @Valid @RequestBody Employee employeeDetails) {
+        log.info(String.format("Trying to update employee with id = %s, employee details: %s", id, employeeDetails.toString()));
+        return employeeService.updateEmployee(id, employeeDetails);
     }
 }
